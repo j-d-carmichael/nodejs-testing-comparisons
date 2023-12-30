@@ -1,0 +1,38 @@
+name: Run the unit tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: npm run test:node
+        run: npm run test:node
+
+      - name: npm run test:jest
+        run: npm run test:jest
+
+      - name: npm run test:mocha
+        run: npm run test:mocha
+
+      - name: npm run test:vitest
+        run: npm run test:vitest
